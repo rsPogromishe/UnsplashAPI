@@ -15,7 +15,7 @@ enum NetworkError {
 
 class NetworkManager {
     func fetchData(
-        onCompletion: @escaping ((Photo) -> Void),
+        onCompletion: @escaping (([PhotoData]) -> Void),
         onError: @escaping ((NetworkError) -> Void)
     ) {
         guard let url = createURLcomponents() else {
@@ -44,16 +44,16 @@ class NetworkManager {
         urlComponents.host = "api.unsplash.com"
         urlComponents.path = "/photos/random/"
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constant.keyAPI)
+            URLQueryItem(name: "client_id", value: Constant.keyAPI),
+            URLQueryItem(name: "count", value: "10")
         ]
 
         return urlComponents.url
     }
 
-    private func parseJSON(withData data: Data) throws -> Photo? {
+    private func parseJSON(withData data: Data) throws -> [PhotoData]? {
         let decoder = JSONDecoder()
-        let photoData = try decoder.decode(PhotoData.self, from: data)
-        guard let currentWeather = Photo(photoData: photoData) else { return nil }
-        return currentWeather
+        let photoData = try decoder.decode([PhotoData].self, from: data)
+        return photoData
     }
 }

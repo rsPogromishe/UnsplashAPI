@@ -15,11 +15,12 @@ class MainTabBarController: UITabBarController {
         guard let likeImage = UIImage(systemName: Constant.likeImage) else { return }
 
         viewControllers = [
-            generateViewController(rootViewController: CollectionPhotoViewController(), image: collectionImage, title: "Collection"),
+            generateViewController(rootViewController: CollectionPhotosViewController(), image: collectionImage, title: "Collection"),
             generateViewController(rootViewController: LikePhotoViewController(), image: likeImage, title: "Likes")
         ]
 
         tabBar.tintColor = .black
+        tabBar.backgroundColor = .white
         view.backgroundColor = .white
     }
 
@@ -29,6 +30,7 @@ class MainTabBarController: UITabBarController {
         navigationVC.tabBarItem.title = title
         rootViewController.navigationItem.title = title
         navigationVC.navigationBar.prefersLargeTitles = true
+        navigationVC.navigationBar.backgroundColor = .white
         return navigationVC
     }
 }
