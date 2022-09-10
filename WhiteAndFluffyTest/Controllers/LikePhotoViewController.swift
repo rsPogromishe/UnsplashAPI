@@ -93,12 +93,9 @@ extension LikePhotoViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension LikePhotoViewController: DescriptionPhotoViewControllerDelegate {
     func passPhotoData(photo: Photo) {
-        self.photoData.forEach { photos in
-            if photos.id != photo.id {
-                photoData.append(photo)
-                PhotoStorage().saveNotes(photoData)
-            }
-        }
+        self.photoData.removeAll(where: { $0.id == photo.id })
+        photoData.append(photo)
+        PhotoStorage().saveNotes(photoData)
         tableView?.reloadData()
     }
 

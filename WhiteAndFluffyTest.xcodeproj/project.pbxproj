@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		545844E63E4485F38C053DCF /* libPods-WhiteAndFluffyTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 282ED15F0AD737A7B1B0413A /* libPods-WhiteAndFluffyTest.a */; };
 		584DAD6B28C3C97B00ADBA2C /* CollectionPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584DAD6A28C3C97B00ADBA2C /* CollectionPhotosViewController.swift */; };
 		584DAD6D28C3EC7700ADBA2C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584DAD6C28C3EC7700ADBA2C /* Extensions.swift */; };
 		584DAD6F28C3EEF200ADBA2C /* DescriptionPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584DAD6E28C3EEF200ADBA2C /* DescriptionPhotoViewController.swift */; };
@@ -26,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		282ED15F0AD737A7B1B0413A /* libPods-WhiteAndFluffyTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WhiteAndFluffyTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DB291AC0B5114BF1EE5B099 /* Pods-WhiteAndFluffyTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteAndFluffyTest.release.xcconfig"; path = "Target Support Files/Pods-WhiteAndFluffyTest/Pods-WhiteAndFluffyTest.release.xcconfig"; sourceTree = "<group>"; };
 		584DAD6A28C3C97B00ADBA2C /* CollectionPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPhotosViewController.swift; sourceTree = "<group>"; };
 		584DAD6C28C3EC7700ADBA2C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		584DAD6E28C3EEF200ADBA2C /* DescriptionPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionPhotoViewController.swift; sourceTree = "<group>"; };
@@ -44,6 +47,7 @@
 		58E4B91F28C295920097F771 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		58E4B92128C296920097F771 /* PhotoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoData.swift; sourceTree = "<group>"; };
 		58FB530528CB444F009D52C9 /* PhotoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStorage.swift; sourceTree = "<group>"; };
+		C5EC727DC74B21C411E1A662 /* Pods-WhiteAndFluffyTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhiteAndFluffyTest.debug.xcconfig"; path = "Target Support Files/Pods-WhiteAndFluffyTest/Pods-WhiteAndFluffyTest.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				545844E63E4485F38C053DCF /* libPods-WhiteAndFluffyTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +95,8 @@
 			children = (
 				58E4B8FF28C27FEF0097F771 /* WhiteAndFluffyTest */,
 				58E4B8FE28C27FEF0097F771 /* Products */,
+				A47C174EF2C0B79C05AB2234 /* Pods */,
+				69C6E0A89661263FB9AC2D3A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -145,6 +152,24 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		69C6E0A89661263FB9AC2D3A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				282ED15F0AD737A7B1B0413A /* libPods-WhiteAndFluffyTest.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A47C174EF2C0B79C05AB2234 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C5EC727DC74B21C411E1A662 /* Pods-WhiteAndFluffyTest.debug.xcconfig */,
+				4DB291AC0B5114BF1EE5B099 /* Pods-WhiteAndFluffyTest.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -152,6 +177,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58E4B91128C27FF10097F771 /* Build configuration list for PBXNativeTarget "WhiteAndFluffyTest" */;
 			buildPhases = (
+				794E7663D33D875E6CBB9D74 /* [CP] Check Pods Manifest.lock */,
 				58E4B8F928C27FEF0097F771 /* Sources */,
 				58E4B8FA28C27FEF0097F771 /* Frameworks */,
 				58E4B8FB28C27FEF0097F771 /* Resources */,
@@ -209,6 +235,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		794E7663D33D875E6CBB9D74 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WhiteAndFluffyTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		58E4B8F928C27FEF0097F771 /* Sources */ = {
@@ -362,6 +413,7 @@
 		};
 		58E4B91228C27FF10097F771 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C5EC727DC74B21C411E1A662 /* Pods-WhiteAndFluffyTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -389,6 +441,7 @@
 		};
 		58E4B91328C27FF10097F771 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4DB291AC0B5114BF1EE5B099 /* Pods-WhiteAndFluffyTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

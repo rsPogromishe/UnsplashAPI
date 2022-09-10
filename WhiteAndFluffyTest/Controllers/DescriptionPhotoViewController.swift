@@ -37,6 +37,7 @@ class DescriptionPhotoViewController: UIViewController {
         authorNameLabel.text = "Author: \(photo.authorName)"
         downloadsCountLabel.text = "Downloads: \(photo.downloads)"
         createDateLabel.text = setupDate(photo: photo)
+
         DispatchQueue.global().async {
             guard let imageURL = URL(string: photo.fullPhoto) else { return }
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
@@ -44,12 +45,12 @@ class DescriptionPhotoViewController: UIViewController {
                 self.image.image = UIImage(data: imageData)
             }
         }
-        if fromLikePhoto == true {
+        let photoData = PhotoStorage().loadNotes()
+        if photoData.contains(where: { $0.id == photo.id }) {
             likeButton.setImage(UIImage(systemName: Constant.likeImage), for: .normal)
         } else {
             likeButton.setImage(UIImage(systemName: Constant.unlikeImage), for: .normal)
         }
-        
     }
 
     private func setupDate(photo: Photo) -> String {
@@ -73,8 +74,11 @@ class DescriptionPhotoViewController: UIViewController {
     private func checkLikeButton() {
         guard let photo = photo else { return }
         if likeButton.imageView?.image == UIImage(systemName: Constant.likeImage) {
-            PhotoStorage().appendPhoto([photo])
-            delegate?.passPhotoData(photo: photo)
+            let photoData = PhotoStorage().loadNotes()
+            if !photoData.contains(where: { $0.id == photo.id }) {
+                PhotoStorage().appendPhoto([photo])
+                delegate?.passPhotoData(photo: photo)
+            }
         } else if fromLikePhoto == true && likeButton.imageView?.image == UIImage(systemName: Constant.unlikeImage) {
             delegate?.deletePhotoData(photo: photo)
         }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 enum NetworkError {
     case failedURL
@@ -28,28 +29,30 @@ class NetworkManager {
             onError(.failedURL)
             return
         }
-        URLSession.shared.dataTask(with: url) { data, _, _ in
-            if let data = data {
+
+        AF.request(url).response { response in
+            switch response.result {
+            case .success (let data):
                 do {
                     switch requestType {
                     case .random:
-                        if let note = try self.randomPhotoParseJSON(withData: data) {
-                            onCompletion(note)
+                        if let result = try self.randomPhotoParseJSON(withData: data ?? Data()) {
+                            onCompletion(result)
                         }
                     case .search:
-                        if let note = try self.searchPhotoParseJSON(withData: data) {
+                        if let note = try self.searchPhotoParseJSON(withData: data ?? Data()) {
                             onCompletion(note)
                         }
                     }
                     
                 } catch {
                     onError(.parsingError)
-                    print(error)
                 }
-            } else {
+            case .failure (let error):
+                print(error)
                 onError(.emptyData)
             }
-        }.resume()
+        }
     }
 
     private func createURLcomponents(requestType: RequestType) -> URL? {
