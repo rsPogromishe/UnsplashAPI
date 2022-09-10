@@ -23,6 +23,7 @@ class LikePhotoTableViewCell: UITableViewCell {
     }
 
     private func setupUI() {
+        selectionStyle = .none
         image.translatesAutoresizingMaskIntoConstraints = false
         authorNameLabel.translatesAutoresizingMaskIntoConstraints = false
         authorNameLabel.font = .systemFont(ofSize: 24)
@@ -32,15 +33,24 @@ class LikePhotoTableViewCell: UITableViewCell {
 
         NSLayoutConstraint.activate([
             image.topAnchor.constraint(equalTo: topAnchor),
+            image.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             image.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
-            image.bottomAnchor.constraint(equalTo: bottomAnchor),
-            image.heightAnchor.constraint(equalToConstant: 100),
+            image.heightAnchor.constraint(equalToConstant: 50),
+            image.widthAnchor.constraint(equalToConstant: 100),
 
-            authorNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            authorNameLabel.centerYAnchor.constraint(equalTo: image.centerYAnchor),
             authorNameLabel.leftAnchor.constraint(equalTo: image.rightAnchor, constant: 40)
         ])
     }
 
-    func configure() {
+    func configure(photo: Photo) {
+        authorNameLabel.text = photo.authorName
+        DispatchQueue.global().async {
+            guard let imageURL = URL(string: photo.fullPhoto) else { return }
+            guard let imageData = try? Data(contentsOf: imageURL) else { return }
+            DispatchQueue.main.async {
+                self.image.image = UIImage(data: imageData)
+            }
+        }
     }
 }

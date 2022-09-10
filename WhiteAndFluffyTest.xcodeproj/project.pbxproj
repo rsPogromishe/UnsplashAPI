@@ -22,6 +22,7 @@
 		58E4B91B28C294210097F771 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E4B91A28C294210097F771 /* Constant.swift */; };
 		58E4B92028C295920097F771 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E4B91F28C295920097F771 /* NetworkManager.swift */; };
 		58E4B92228C296920097F771 /* PhotoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E4B92128C296920097F771 /* PhotoData.swift */; };
+		58FB530628CB444F009D52C9 /* PhotoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FB530528CB444F009D52C9 /* PhotoStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		58E4B91A28C294210097F771 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		58E4B91F28C295920097F771 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		58E4B92128C296920097F771 /* PhotoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoData.swift; sourceTree = "<group>"; };
+		58FB530528CB444F009D52C9 /* PhotoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5824543C28CB69200074BA8E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				58E4B91428C28E0A0097F771 /* MainTabBarController.swift */,
+				584DAD6E28C3EEF200ADBA2C /* DescriptionPhotoViewController.swift */,
+				584DAD6A28C3C97B00ADBA2C /* CollectionPhotosViewController.swift */,
+				58E4B91628C28F650097F771 /* LikePhotoViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		584DAD7028C4052200ADBA2C /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -62,6 +75,14 @@
 				584DAD7128C407DB00ADBA2C /* LikePhotoTableViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		58E0CD9128CC49A60070DDFE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				584DAD7028C4052200ADBA2C /* Cells */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		58E4B8F428C27FEF0097F771 = {
@@ -87,11 +108,8 @@
 				58E4B90228C27FEF0097F771 /* SceneDelegate.swift */,
 				58E4B91C28C294E20097F771 /* Support Files */,
 				58E4B91D28C294F00097F771 /* Model */,
-				58E4B91628C28F650097F771 /* LikePhotoViewController.swift */,
-				584DAD6A28C3C97B00ADBA2C /* CollectionPhotosViewController.swift */,
-				584DAD7028C4052200ADBA2C /* Cells */,
-				584DAD6E28C3EEF200ADBA2C /* DescriptionPhotoViewController.swift */,
-				58E4B91428C28E0A0097F771 /* MainTabBarController.swift */,
+				58E0CD9128CC49A60070DDFE /* View */,
+				5824543C28CB69200074BA8E /* Controllers */,
 				58E4B90928C27FF10097F771 /* Assets.xcassets */,
 				58E4B90B28C27FF10097F771 /* LaunchScreen.storyboard */,
 				58E4B90E28C27FF10097F771 /* Info.plist */,
@@ -111,19 +129,20 @@
 		58E4B91D28C294F00097F771 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				58E4B91E28C295880097F771 /* NetworkManager */,
+				58E4B91E28C295880097F771 /* Manager */,
 				58E4B91828C293A80097F771 /* Photo.swift */,
 				58E4B92128C296920097F771 /* PhotoData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		58E4B91E28C295880097F771 /* NetworkManager */ = {
+		58E4B91E28C295880097F771 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
 				58E4B91F28C295920097F771 /* NetworkManager.swift */,
+				58FB530528CB444F009D52C9 /* PhotoStorage.swift */,
 			);
-			path = NetworkManager;
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,6 +221,7 @@
 				58E4B92228C296920097F771 /* PhotoData.swift in Sources */,
 				584DAD6F28C3EEF200ADBA2C /* DescriptionPhotoViewController.swift in Sources */,
 				58E4B91728C28F650097F771 /* LikePhotoViewController.swift in Sources */,
+				58FB530628CB444F009D52C9 /* PhotoStorage.swift in Sources */,
 				58E4B92028C295920097F771 /* NetworkManager.swift in Sources */,
 				58E4B90128C27FEF0097F771 /* AppDelegate.swift in Sources */,
 				584DAD6B28C3C97B00ADBA2C /* CollectionPhotosViewController.swift in Sources */,
