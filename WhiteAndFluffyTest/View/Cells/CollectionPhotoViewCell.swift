@@ -37,7 +37,8 @@ class CollectionPhotoViewCell: UICollectionViewCell {
         DispatchQueue.global().async {
             guard let imageURL = URL(string: photo.smallPhoto) else { return }
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 self.picture.image = UIImage(data: imageData)
             }
         }

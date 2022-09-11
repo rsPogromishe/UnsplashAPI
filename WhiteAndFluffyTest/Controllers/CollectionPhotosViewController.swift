@@ -19,12 +19,12 @@ class CollectionPhotosViewController: UIViewController {
         setupCollectionView()
         setupSearch()
         DispatchQueue.global().async {
-            NetworkManager().fetchData(requestType: .random) { photo in
+            NetworkManager().fetchData(requestType: .random) { [weak self] photo in
+                guard let self = self else { return }
                 self.photoData = photo
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
                 }
-                
             } onError: { error in
                 print(error)
             }

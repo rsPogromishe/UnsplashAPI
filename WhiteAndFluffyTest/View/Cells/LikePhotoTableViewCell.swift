@@ -48,7 +48,8 @@ class LikePhotoTableViewCell: UITableViewCell {
         DispatchQueue.global().async {
             guard let imageURL = URL(string: photo.fullPhoto) else { return }
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in 
+                guard let self = self else { return }
                 self.image.image = UIImage(data: imageData)
             }
         }

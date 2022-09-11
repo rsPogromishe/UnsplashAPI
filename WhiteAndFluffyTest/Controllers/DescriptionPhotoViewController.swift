@@ -41,7 +41,8 @@ class DescriptionPhotoViewController: UIViewController {
         DispatchQueue.global().async {
             guard let imageURL = URL(string: photo.fullPhoto) else { return }
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 self.image.image = UIImage(data: imageData)
             }
         }
@@ -90,6 +91,8 @@ class DescriptionPhotoViewController: UIViewController {
 extension DescriptionPhotoViewController {
     private func setupUI() {
         image.translatesAutoresizingMaskIntoConstraints = false
+        image.clipsToBounds = true
+        image.contentMode = .scaleAspectFit
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
         locationLabel.font = .systemFont(ofSize: 18)
         locationLabel.numberOfLines = 0
