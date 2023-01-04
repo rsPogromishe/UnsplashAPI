@@ -2,7 +2,7 @@
 //  PhotoStorage.swift
 //  WhiteAndFluffyTest
 //
-//  Created by Снытин Ростислав on 09.09.2022.
+//  Created by Снытин Ростислав on 04.01.2023.
 //
 
 import Foundation
@@ -33,7 +33,17 @@ class PhotoStorage {
                   let fullPhoto = photo[PhotoKey.fullPhoto.rawValue] as? String,
                   let id = photo[PhotoKey.id.rawValue] as? String
             else { continue }
-            resultPhotos.append(Photo(authorName: authorName, createDate: createDate, downloads: downloads, location: location, smallPhoto: smallPhoto, fullPhoto: fullPhoto, id: id))
+            resultPhotos.append(
+                Photo(
+                    authorName: authorName,
+                    createDate: createDate,
+                    downloads: downloads,
+                    location: location,
+                    smallPhoto: smallPhoto,
+                    fullPhoto: fullPhoto,
+                    id: id
+                )
+            )
         }
         return resultPhotos
     }

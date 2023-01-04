@@ -8,8 +8,8 @@
 import UIKit
 
 class LikePhotoViewController: UIViewController {
-    private var photoData: [Photo] = []
-    
+    var presenter: LikePhotosPresenter
+
     private var tableView: UITableView?
     private let textIfEmpty = UILabel()
 
@@ -21,28 +21,21 @@ class LikePhotoViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        photoData = PhotoStorage().loadNotes()
-        checkLikePhotos()
+        presenter.viewWillAppear()
         tableView?.reloadData()
     }
 
-    private func checkLikePhotos() {
-        if photoData.isEmpty {
-            let action = UIAlertController(title: "No photo", message: "Please, add photo to favourites", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default)
-            action.addAction(okAction)
-            present(action, animated: true)
+    init(presenter: LikePhotosPresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
 
-            tableView?.isHidden = true
-            textIfEmpty.isHidden = false
-        } else {
-            tableView?.isHidden = false
-            textIfEmpty.isHidden = true
-        }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
-//MARK: Setup UI
+// MARK: Setup UI
 
 extension LikePhotoViewController {
     private func setupUI() {
@@ -61,47 +54,75 @@ extension LikePhotoViewController {
 
         NSLayoutConstraint.activate([
             textIfEmpty.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            textIfEmpty.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            textIfEmpty.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 }
 
-//MARK: Setup TableView
+// MARK: Setup TableView
 
 extension LikePhotoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        photoData.count
+        presenter.photoData.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: LikePhotoTableViewCell.identifier) as? LikePhotoTableViewCell,
-           let entry = photoData[safe: indexPath.row] {
-            cell.configure(photo: entry)
+        if let cell = tableView.dequeueReusableCell(
+            withIdentifier: LikePhotoTableViewCell.identifier
+        ) as? LikePhotoTableViewCell,
+           let photo = presenter.photoData[safe: indexPath.row] {
+            cell.configure(photo: photo)
             return cell
         }
         return UITableViewCell()
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = DescriptionPhotoViewController()
-        vc.delegate = self
-        vc.photo = photoData[indexPath.row]
-        vc.fromLikePhoto = true
+        guard let photo = presenter.photoData[safe: indexPath.row] else { return }
+        let vc = DescriptionPhotoAssemble.assembleDescriptionPhoto(
+            photo: photo,
+            fromLikePhoto: true,
+            delegate: self
+        )
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
+// MARK: Delegate
+
 extension LikePhotoViewController: DescriptionPhotoViewControllerDelegate {
     func passPhotoData(photo: Photo) {
-        self.photoData.removeAll(where: { $0.id == photo.id })
-        photoData.append(photo)
-        PhotoStorage().saveNotes(photoData)
-        tableView?.reloadData()
+        presenter.passPhotoData(photo: photo)
     }
 
     func deletePhotoData(photo: Photo) {
-        self.photoData.removeAll(where: { $0.id == photo.id })
-        PhotoStorage().saveNotes(photoData)
-        tableView?.reloadData()
+        presenter.deletePhotoData(photo: photo)
+    }
+}
+
+// MARK: ViewInput
+
+extension LikePhotoViewController: LikePhotosViewInput {
+    func reloadData() {
+        self.tableView?.reloadData()
+    }
+
+    func showAlert(bool: Bool) {
+        if bool {
+            let action = UIAlertController(
+                title: "No photo",
+                message: "Please, add photo to favourites",
+                preferredStyle: .alert
+            )
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            action.addAction(okAction)
+            present(action, animated: true)
+
+            tableView?.isHidden = true
+            textIfEmpty.isHidden = false
+        } else {
+            tableView?.isHidden = false
+            textIfEmpty.isHidden = true
+        }
     }
 }

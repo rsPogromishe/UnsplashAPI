@@ -8,8 +8,7 @@
 import UIKit
 
 class DescriptionPhotoViewController: UIViewController {
-    var photo: Photo?
-    var fromLikePhoto = false
+    var presenter: DescriptionPhotoPresenter
 
     weak var delegate: DescriptionPhotoViewControllerDelegate?
 
@@ -24,7 +23,7 @@ class DescriptionPhotoViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
-        configure(photo: photo ?? Photo(authorName: "", createDate: "", downloads: 0, location: "", smallPhoto: "", fullPhoto: "", id: ""))
+        presenter.viewDidLoad()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -32,36 +31,13 @@ class DescriptionPhotoViewController: UIViewController {
         checkLikeButton()
     }
 
-    private func configure(photo: Photo) {
-        locationLabel.text = photo.location
-        authorNameLabel.text = "Author: \(photo.authorName)"
-        downloadsCountLabel.text = "Downloads: \(photo.downloads)"
-        createDateLabel.text = setupDate(photo: photo)
-
-        DispatchQueue.global().async {
-            guard let imageURL = URL(string: photo.fullPhoto) else { return }
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.image.image = UIImage(data: imageData)
-            }
-        }
-        let photoData = PhotoStorage().loadNotes()
-        if photoData.contains(where: { $0.id == photo.id }) {
-            likeButton.setImage(UIImage(systemName: Constant.likeImage), for: .normal)
-        } else {
-            likeButton.setImage(UIImage(systemName: Constant.unlikeImage), for: .normal)
-        }
+    init(presenter: DescriptionPhotoPresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
     }
 
-    private func setupDate(photo: Photo) -> String {
-        let dateFormatter = ISO8601DateFormatter()
-        let date = dateFormatter.date(from: photo.createDate) ?? Date()
-        let convertDate = DateFormatter()
-        convertDate.dateFormat = "dd MMMM yyyy hh:mm"
-        convertDate.locale = Locale(identifier: "en_EN")
-        let finalDate = convertDate.string(from: date)
-        return finalDate
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     @objc private func likeButtonTapped() {
@@ -73,20 +49,21 @@ class DescriptionPhotoViewController: UIViewController {
     }
 
     private func checkLikeButton() {
-        guard let photo = photo else { return }
+        guard let photo = presenter.photo else { return }
         if likeButton.imageView?.image == UIImage(systemName: Constant.likeImage) {
             let photoData = PhotoStorage().loadNotes()
             if !photoData.contains(where: { $0.id == photo.id }) {
                 PhotoStorage().appendPhoto([photo])
                 delegate?.passPhotoData(photo: photo)
             }
-        } else if fromLikePhoto == true && likeButton.imageView?.image == UIImage(systemName: Constant.unlikeImage) {
+        } else if presenter.fromLikePhoto == true &&
+        likeButton.imageView?.image == UIImage(systemName: Constant.unlikeImage) {
             delegate?.deletePhotoData(photo: photo)
         }
     }
 }
 
-//MARK: Setup UI
+// MARK: Setup UI
 
 extension DescriptionPhotoViewController {
     private func setupUI() {
@@ -139,7 +116,34 @@ extension DescriptionPhotoViewController {
     }
 }
 
-//MARK: Delegate
+// MARK: ViewInput
+
+extension DescriptionPhotoViewController: DescriptionPhotoViewInput {
+    func configure(photo: Photo) {
+        locationLabel.text = photo.location
+        authorNameLabel.text = "Author: \(photo.authorName)"
+        downloadsCountLabel.text = "Downloads: \(photo.downloads)"
+        createDateLabel.text = presenter.setupDate(photo: photo)
+
+        DispatchQueue.global().async {
+            guard let imageURL = URL(string: photo.fullPhoto) else { return }
+            guard let imageData = try? Data(contentsOf: imageURL) else { return }
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.image.image = UIImage(data: imageData)
+            }
+        }
+
+        let photoData = PhotoStorage().loadNotes()
+        if photoData.contains(where: { $0.id == photo.id }) {
+            likeButton.setImage(UIImage(systemName: Constant.likeImage), for: .normal)
+        } else {
+            likeButton.setImage(UIImage(systemName: Constant.unlikeImage), for: .normal)
+        }
+    }
+}
+
+// MARK: Delegate
 
 protocol DescriptionPhotoViewControllerDelegate: AnyObject {
     func passPhotoData(photo: Photo)

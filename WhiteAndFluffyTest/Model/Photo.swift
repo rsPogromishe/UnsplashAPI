@@ -36,7 +36,15 @@ struct Photo: Codable {
         location = ""
     }
 
-    init(authorName: String, createDate: String, downloads: Int, location: String, smallPhoto: String, fullPhoto: String, id: String) {
+    init(
+        authorName: String,
+        createDate: String,
+        downloads: Int,
+        location: String,
+        smallPhoto: String,
+        fullPhoto: String,
+        id: String
+    ) {
         self.id = id
         self.authorName = authorName
         self.createDate = createDate

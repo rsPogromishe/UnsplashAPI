@@ -17,13 +17,15 @@ class LikePhotoTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     private func setupUI() {
         selectionStyle = .none
+        image.clipsToBounds = true
+        image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         authorNameLabel.translatesAutoresizingMaskIntoConstraints = false
         authorNameLabel.font = .systemFont(ofSize: 24)
@@ -48,7 +50,7 @@ class LikePhotoTableViewCell: UITableViewCell {
         DispatchQueue.global().async {
             guard let imageURL = URL(string: photo.fullPhoto) else { return }
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            DispatchQueue.main.async { [weak self] in 
+            DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.image.image = UIImage(data: imageData)
             }

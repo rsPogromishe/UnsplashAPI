@@ -8,12 +8,6 @@
 import Foundation
 import Alamofire
 
-enum NetworkError {
-    case failedURL
-    case parsingError
-    case emptyData
-}
-
 enum RequestType {
     case random
     case search(searchTerms: String)
@@ -22,35 +16,30 @@ enum RequestType {
 class NetworkManager {
     func fetchData(
         requestType: RequestType,
-        onCompletion: @escaping (([Photo]) -> Void),
-        onError: @escaping ((NetworkError) -> Void)
+        onCompletion: @escaping ((Result<[Photo], Error>) -> Void)
     ) {
-        guard let url = createURLcomponents(requestType: requestType) else {
-            onError(.failedURL)
-            return
-        }
+        guard let url = createURLcomponents(requestType: requestType) else { return }
 
         AF.request(url).response { response in
             switch response.result {
-            case .success (let data):
+            case .success(let data):
                 do {
                     switch requestType {
                     case .random:
                         if let result = try self.randomPhotoParseJSON(withData: data ?? Data()) {
-                            onCompletion(result)
+                            onCompletion(.success(result))
                         }
                     case .search:
-                        if let note = try self.searchPhotoParseJSON(withData: data ?? Data()) {
-                            onCompletion(note)
+                        if let photos = try self.searchPhotoParseJSON(withData: data ?? Data()) {
+                            onCompletion(.success(photos))
                         }
                     }
-                    
                 } catch {
-                    onError(.parsingError)
+                    onCompletion(.failure(error))
                 }
-            case .failure (let error):
+            case .failure(let error):
                 print(error)
-                onError(.emptyData)
+                onCompletion(.failure(error))
             }
         }
     }

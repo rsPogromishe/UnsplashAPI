@@ -22,6 +22,8 @@ class CollectionPhotoViewCell: UICollectionViewCell {
     }
 
     private func setupCell() {
+        picture.clipsToBounds = true
+        picture.contentMode = .scaleAspectFill
         picture.translatesAutoresizingMaskIntoConstraints = false
         addSubview(picture)
 
