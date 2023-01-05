@@ -36,7 +36,8 @@ class CollectionPhotoViewCell: UICollectionViewCell {
     }
 
     func configure(photo: Photo) {
-        NetworkManager().uploadImage(url: photo.smallPhoto) { image in
+        NetworkManager().downloadImage(url: photo.smallPhoto) { [weak self] image in
+            guard let self = self else { return }
             self.picture.image = image
         }
     }

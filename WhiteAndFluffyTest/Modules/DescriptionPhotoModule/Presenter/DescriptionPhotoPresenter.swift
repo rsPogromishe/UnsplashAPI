@@ -11,6 +11,7 @@ class DescriptionPhotoPresenter: DescriptionPhotoPresenterProtocol {
     weak var view: DescriptionPhotoViewInput?
     var photo: Photo?
     var fromLikePhoto = false
+    var isLike = false
 
     func viewDidLoad() {
         guard let photo = photo else { return }
@@ -44,11 +45,18 @@ class DescriptionPhotoPresenter: DescriptionPhotoPresenterProtocol {
 
     func checkLikes() {
         let photoData = PhotoStorage().loadNotes()
-        photoData.contains(where: { $0.id == photo?.id }) ? view?.setLike(bool: true) : view?.setLike(bool: false)
+        photoData.contains(where: { $0.id == photo?.id }) ? (isLike = true) : (isLike = false)
+        view?.setLike(bool: isLike)
+    }
+
+    func changeButton() {
+        isLike.toggle()
+        view?.setLike(bool: isLike)
     }
 
     private func uploadImage() {
-        NetworkManager().uploadImage(url: photo?.fullPhoto ?? "") { image in
+        NetworkManager().downloadImage(url: photo?.fullPhoto ?? "") { [weak self] image in
+            guard let self = self else { return }
             self.view?.setImage(image: image)
         }
     }

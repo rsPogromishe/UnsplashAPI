@@ -44,14 +44,14 @@ class NetworkManager {
         }
     }
 
-    func uploadImage(url: String, completion: @escaping ((UIImage) -> Void)) {
+    func downloadImage(url: String, completion: @escaping ((UIImage) -> Void)) {
         AF.request(url).response { response in
             switch response.result {
             case .success(let data):
                 guard let data = data else { return }
                 guard let image = UIImage(data: data) else { return }
                 completion(image)
-            case.failure(let error):
+            case .failure(let error):
                 print(error)
             }
         }

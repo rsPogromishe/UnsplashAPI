@@ -47,7 +47,8 @@ class LikePhotoTableViewCell: UITableViewCell {
 
     func configure(photo: Photo) {
         authorNameLabel.text = photo.authorName
-        NetworkManager().uploadImage(url: photo.smallPhoto) { image in
+        NetworkManager().downloadImage(url: photo.smallPhoto) { [weak self] image in
+            guard let self = self else { return }
             self.image.image = image
         }
     }

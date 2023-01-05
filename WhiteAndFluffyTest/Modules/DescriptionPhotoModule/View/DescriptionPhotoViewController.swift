@@ -46,11 +46,7 @@ class DescriptionPhotoViewController: UIViewController {
     }
 
     @objc private func likeButtonTapped() {
-        if likeButton.imageView?.image == UIImage(systemName: Constant.likeImage) {
-            likeButton.setImage(UIImage(systemName: Constant.unlikeImage), for: .normal)
-        } else {
-            likeButton.setImage(UIImage(systemName: Constant.likeImage), for: .normal)
-        }
+        presenter.changeButton()
         checkLikeButton()
     }
 
