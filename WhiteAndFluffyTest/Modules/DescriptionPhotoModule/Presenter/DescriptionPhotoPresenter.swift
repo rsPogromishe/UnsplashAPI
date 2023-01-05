@@ -15,6 +15,8 @@ class DescriptionPhotoPresenter: DescriptionPhotoPresenterProtocol {
     func viewDidLoad() {
         guard let photo = photo else { return }
         view?.configure(photo: photo)
+        uploadImage()
+        checkLikes()
     }
 
     func setupDate(photo: Photo) -> String {
@@ -25,5 +27,29 @@ class DescriptionPhotoPresenter: DescriptionPhotoPresenterProtocol {
         convertDate.locale = Locale(identifier: "en_EN")
         let finalDate = convertDate.string(from: date)
         return finalDate
+    }
+
+    func checkLikeButton(bool: Bool) {
+        guard let photo = photo else { return }
+        if bool {
+            let photoData = PhotoStorage().loadNotes()
+            if !photoData.contains(where: { $0.id == photo.id }) {
+                PhotoStorage().appendPhoto([photo])
+                view?.passPhotoData(photo: photo)
+            }
+        } else {
+            view?.deletePhotoData(photo: photo)
+        }
+    }
+
+    func checkLikes() {
+        let photoData = PhotoStorage().loadNotes()
+        photoData.contains(where: { $0.id == photo?.id }) ? view?.setLike(bool: true) : view?.setLike(bool: false)
+    }
+
+    private func uploadImage() {
+        NetworkManager().uploadImage(url: photo?.fullPhoto ?? "") { image in
+            self.view?.setImage(image: image)
+        }
     }
 }

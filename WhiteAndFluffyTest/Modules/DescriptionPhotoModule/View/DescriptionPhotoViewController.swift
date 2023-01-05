@@ -12,7 +12,7 @@ class DescriptionPhotoViewController: UIViewController {
 
     weak var delegate: DescriptionPhotoViewControllerDelegate?
 
-    private let image = UIImageView()
+    private let imageView = UIImageView()
     private let locationLabel = UILabel()
     private let authorNameLabel = UILabel()
     private let downloadsCountLabel = UILabel()
@@ -24,6 +24,11 @@ class DescriptionPhotoViewController: UIViewController {
         view.backgroundColor = .white
         setupUI()
         presenter.viewDidLoad()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.checkLikes()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -46,19 +51,15 @@ class DescriptionPhotoViewController: UIViewController {
         } else {
             likeButton.setImage(UIImage(systemName: Constant.likeImage), for: .normal)
         }
+        checkLikeButton()
     }
 
     private func checkLikeButton() {
-        guard let photo = presenter.photo else { return }
         if likeButton.imageView?.image == UIImage(systemName: Constant.likeImage) {
-            let photoData = PhotoStorage().loadNotes()
-            if !photoData.contains(where: { $0.id == photo.id }) {
-                PhotoStorage().appendPhoto([photo])
-                delegate?.passPhotoData(photo: photo)
-            }
+            presenter.checkLikeButton(bool: true)
         } else if presenter.fromLikePhoto == true &&
         likeButton.imageView?.image == UIImage(systemName: Constant.unlikeImage) {
-            delegate?.deletePhotoData(photo: photo)
+            presenter.checkLikeButton(bool: false)
         }
     }
 }
@@ -67,9 +68,9 @@ class DescriptionPhotoViewController: UIViewController {
 
 extension DescriptionPhotoViewController {
     private func setupUI() {
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.clipsToBounds = true
-        image.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
         locationLabel.font = .systemFont(ofSize: 18)
         locationLabel.numberOfLines = 0
@@ -83,7 +84,7 @@ extension DescriptionPhotoViewController {
         likeButton.translatesAutoresizingMaskIntoConstraints = false
         likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
 
-        view.addSubview(image)
+        view.addSubview(imageView)
         view.addSubview(locationLabel)
         view.addSubview(authorNameLabel)
         view.addSubview(downloadsCountLabel)
@@ -91,17 +92,17 @@ extension DescriptionPhotoViewController {
         view.addSubview(likeButton)
 
         NSLayoutConstraint.activate([
-            image.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
-            image.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            image.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            imageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            imageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
 
-            likeButton.leftAnchor.constraint(equalTo: image.leftAnchor),
-            likeButton.topAnchor.constraint(equalTo: image.bottomAnchor),
+            likeButton.leftAnchor.constraint(equalTo: imageView.leftAnchor),
+            likeButton.topAnchor.constraint(equalTo: imageView.bottomAnchor),
             likeButton.heightAnchor.constraint(equalToConstant: 50),
 
             locationLabel.leftAnchor.constraint(equalTo: view.leftAnchor),
             locationLabel.rightAnchor.constraint(equalTo: view.rightAnchor),
-            locationLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 50),
+            locationLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 50),
 
             authorNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             authorNameLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 10),
@@ -124,22 +125,26 @@ extension DescriptionPhotoViewController: DescriptionPhotoViewInput {
         authorNameLabel.text = "Author: \(photo.authorName)"
         downloadsCountLabel.text = "Downloads: \(photo.downloads)"
         createDateLabel.text = presenter.setupDate(photo: photo)
+    }
 
-        DispatchQueue.global().async {
-            guard let imageURL = URL(string: photo.fullPhoto) else { return }
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.image.image = UIImage(data: imageData)
-            }
-        }
+    func setImage(image: UIImage) {
+        imageView.image = image
+    }
 
-        let photoData = PhotoStorage().loadNotes()
-        if photoData.contains(where: { $0.id == photo.id }) {
+    func setLike(bool: Bool) {
+        if bool {
             likeButton.setImage(UIImage(systemName: Constant.likeImage), for: .normal)
         } else {
             likeButton.setImage(UIImage(systemName: Constant.unlikeImage), for: .normal)
         }
+    }
+
+    func passPhotoData(photo: Photo) {
+        delegate?.passPhotoData(photo: photo)
+    }
+
+    func deletePhotoData(photo: Photo) {
+        delegate?.deletePhotoData(photo: photo)
     }
 }
 

@@ -36,13 +36,8 @@ class CollectionPhotoViewCell: UICollectionViewCell {
     }
 
     func configure(photo: Photo) {
-        DispatchQueue.global().async {
-            guard let imageURL = URL(string: photo.smallPhoto) else { return }
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.picture.image = UIImage(data: imageData)
-            }
+        NetworkManager().uploadImage(url: photo.smallPhoto) { image in
+            self.picture.image = image
         }
     }
 }

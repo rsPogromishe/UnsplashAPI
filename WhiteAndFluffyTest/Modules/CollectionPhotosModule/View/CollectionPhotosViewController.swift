@@ -103,7 +103,13 @@ extension CollectionPhotosViewController: UISearchResultsUpdating, UISearchContr
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (_) in
                 let searchText = searchController.searchBar.text
                 self.presenter.searchPhotos(searchText: searchText ?? "")
-                }
+            }
+            )
+        } else {
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (_) in
+                self.presenter.viewDidLoad()
+            }
             )
         }
     }

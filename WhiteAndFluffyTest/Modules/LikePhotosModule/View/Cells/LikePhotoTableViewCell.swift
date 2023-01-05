@@ -47,13 +47,8 @@ class LikePhotoTableViewCell: UITableViewCell {
 
     func configure(photo: Photo) {
         authorNameLabel.text = photo.authorName
-        DispatchQueue.global().async {
-            guard let imageURL = URL(string: photo.fullPhoto) else { return }
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.image.image = UIImage(data: imageData)
-            }
+        NetworkManager().uploadImage(url: photo.smallPhoto) { image in
+            self.image.image = image
         }
     }
 }
