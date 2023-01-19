@@ -8,6 +8,8 @@
 import Foundation
 
 class PhotoStorage {
+    static let shared = PhotoStorage()
+
     private let storage = UserDefaults.standard
     private let storageKey: String = "photos"
 

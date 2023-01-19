@@ -30,12 +30,12 @@ class DescriptionPhotoPresenter: DescriptionPhotoPresenterProtocol {
         return finalDate
     }
 
-    func checkLikeButton(bool: Bool) {
+    func checkLikeButton(isLiked: Bool) {
         guard let photo = photo else { return }
-        if bool {
-            let photoData = PhotoStorage().loadNotes()
+        if isLiked {
+            let photoData = PhotoStorage.shared.loadNotes()
             if !photoData.contains(where: { $0.id == photo.id }) {
-                PhotoStorage().appendPhoto([photo])
+                PhotoStorage.shared.appendPhoto([photo])
                 view?.passPhotoData(photo: photo)
             }
         } else {
@@ -44,14 +44,14 @@ class DescriptionPhotoPresenter: DescriptionPhotoPresenterProtocol {
     }
 
     func checkLikes() {
-        let photoData = PhotoStorage().loadNotes()
+        let photoData = PhotoStorage.shared.loadNotes()
         photoData.contains(where: { $0.id == photo?.id }) ? (isLike = true) : (isLike = false)
-        view?.setLike(bool: isLike)
+        view?.setLike(isLiked: isLike)
     }
 
     func changeButton() {
         isLike.toggle()
-        view?.setLike(bool: isLike)
+        view?.setLike(isLiked: isLike)
     }
 
     private func uploadImage() {

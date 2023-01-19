@@ -13,7 +13,7 @@ class LikePhotosPresenter: LikePhotosPresenterProtocol {
     var photoData: [Photo] = []
 
     func viewWillAppear() {
-        photoData = PhotoStorage().loadNotes()
+        photoData = PhotoStorage.shared.loadNotes()
         checkLikePhotos()
         view?.reloadData()
     }
@@ -21,21 +21,21 @@ class LikePhotosPresenter: LikePhotosPresenterProtocol {
     func passPhotoData(photo: Photo) {
         self.photoData.removeAll(where: { $0.id == photo.id })
         photoData.append(photo)
-        PhotoStorage().saveNotes(photoData)
+        PhotoStorage.shared.saveNotes(photoData)
         view?.reloadData()
     }
 
     func deletePhotoData(photo: Photo) {
         self.photoData.removeAll(where: { $0.id == photo.id })
-        PhotoStorage().saveNotes(photoData)
+        PhotoStorage.shared.saveNotes(photoData)
         view?.reloadData()
     }
 
     private func checkLikePhotos() {
         if photoData.isEmpty {
-            view?.showAlert(bool: true)
+            view?.showAlert(isEmpty: true)
         } else {
-            view?.showAlert(bool: false)
+            view?.showAlert(isEmpty: false)
         }
     }
 }

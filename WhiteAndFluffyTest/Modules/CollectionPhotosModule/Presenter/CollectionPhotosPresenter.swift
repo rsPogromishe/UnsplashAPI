@@ -11,6 +11,7 @@ class CollectionPhotosPresenter: CollectionPhotosPresenterProtocol {
     weak var view: CollectionPhotosViewInput?
 
     var photoData: [Photo] = []
+    private var randomPhotoData: [Photo] = []
 
     func viewDidLoad() {
         fetchPhotos()
@@ -31,6 +32,13 @@ class CollectionPhotosPresenter: CollectionPhotosPresenterProtocol {
         }
     }
 
+    func showRandomPhotos() {
+        if photoData != randomPhotoData {
+            photoData = randomPhotoData
+            view?.reloadData()
+        }
+    }
+
     private func fetchPhotos() {
         NetworkManager().fetchData(
             requestType: .random
@@ -39,6 +47,7 @@ class CollectionPhotosPresenter: CollectionPhotosPresenterProtocol {
             switch result {
             case .success(let photo):
                 self.photoData = photo
+                self.randomPhotoData = photo
                 self.view?.reloadData()
             case .failure(let error):
                 print(error)

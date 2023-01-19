@@ -108,7 +108,7 @@ extension CollectionPhotosViewController: UISearchResultsUpdating, UISearchContr
         } else {
             timer?.invalidate()
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (_) in
-                self.presenter.viewDidLoad()
+                self.presenter.showRandomPhotos()
             }
             )
         }

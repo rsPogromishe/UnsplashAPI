@@ -9,5 +9,5 @@ import Foundation
 
 protocol LikePhotosViewInput: AnyObject {
     func reloadData()
-    func showAlert(bool: Bool)
+    func showAlert(isEmpty: Bool)
 }

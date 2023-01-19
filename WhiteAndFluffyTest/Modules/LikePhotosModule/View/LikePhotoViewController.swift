@@ -107,8 +107,8 @@ extension LikePhotoViewController: LikePhotosViewInput {
         self.tableView?.reloadData()
     }
 
-    func showAlert(bool: Bool) {
-        if bool {
+    func showAlert(isEmpty: Bool) {
+        if isEmpty {
             let action = UIAlertController(
                 title: "No photo",
                 message: "Please, add photo to favourites",

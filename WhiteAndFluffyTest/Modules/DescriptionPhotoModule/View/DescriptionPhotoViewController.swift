@@ -52,10 +52,10 @@ class DescriptionPhotoViewController: UIViewController {
 
     private func checkLikeButton() {
         if likeButton.imageView?.image == UIImage(systemName: Constant.likeImage) {
-            presenter.checkLikeButton(bool: true)
+            presenter.checkLikeButton(isLiked: true)
         } else if presenter.fromLikePhoto == true &&
         likeButton.imageView?.image == UIImage(systemName: Constant.unlikeImage) {
-            presenter.checkLikeButton(bool: false)
+            presenter.checkLikeButton(isLiked: false)
         }
     }
 }
@@ -127,8 +127,8 @@ extension DescriptionPhotoViewController: DescriptionPhotoViewInput {
         imageView.image = image
     }
 
-    func setLike(bool: Bool) {
-        if bool {
+    func setLike(isLiked: Bool) {
+        if isLiked {
             likeButton.setImage(UIImage(systemName: Constant.likeImage), for: .normal)
         } else {
             likeButton.setImage(UIImage(systemName: Constant.unlikeImage), for: .normal)

@@ -10,6 +10,6 @@ import Foundation
 protocol DescriptionPhotoPresenterProtocol {
     func viewDidLoad()
     func setupDate(photo: Photo) -> String
-    func checkLikeButton(bool: Bool)
+    func checkLikeButton(isLiked: Bool)
     func checkLikes()
 }

@@ -10,7 +10,7 @@ import UIKit
 protocol DescriptionPhotoViewInput: AnyObject {
     func configure(photo: Photo)
     func setImage(image: UIImage)
-    func setLike(bool: Bool)
+    func setLike(isLiked: Bool)
     func passPhotoData(photo: Photo)
     func deletePhotoData(photo: Photo)
 }
